@@ -32,6 +32,8 @@ object AppModule {
         database: ShoppingItemDatabase
     ) = database.shoppingDao()
 
+    @Provides
+    @Singleton
     fun providePixabayApi():PixabayAPI {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
