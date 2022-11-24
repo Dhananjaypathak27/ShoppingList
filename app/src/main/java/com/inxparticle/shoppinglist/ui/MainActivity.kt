@@ -1,7 +1,8 @@
-package com.inxparticle.shoppinglist
+package com.inxparticle.shoppinglist.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.inxparticle.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
