@@ -8,28 +8,27 @@ import com.inxparticle.shoppinglist.other.Resource
 import com.inxparticle.shoppinglist.repositories.ShoppingRepository
 import retrofit2.Response
 
-class FakeShoppingRepository : ShoppingRepository{
+class FakeShoppingRepository : ShoppingRepository {
+
     private val shoppingItems = mutableListOf<ShoppingItem>()
 
     private val observableShoppingItems = MutableLiveData<List<ShoppingItem>>(shoppingItems)
-
     private val observableTotalPrice = MutableLiveData<Float>()
 
     private var shouldReturnNetworkError = false
 
-    fun setShouldReturnNetworkError(value:Boolean){
+    fun setShouldReturnNetworkError(value: Boolean) {
         shouldReturnNetworkError = value
     }
 
-    private fun refreshLiveData(){
+    private fun refreshLiveData() {
         observableShoppingItems.postValue(shoppingItems)
         observableTotalPrice.postValue(getTotalPrice())
     }
 
     private fun getTotalPrice(): Float {
-        return shoppingItems.sumOf { it.price.toDouble() }.toFloat()
+        return shoppingItems.sumByDouble { it.price.toDouble() }.toFloat()
     }
-
 
     override suspend fun insertShoppingItem(shoppingItem: ShoppingItem) {
         shoppingItems.add(shoppingItem)
@@ -41,7 +40,7 @@ class FakeShoppingRepository : ShoppingRepository{
         refreshLiveData()
     }
 
-    override fun observeAllShoppingItem(): LiveData<List<ShoppingItem>> {
+    override fun observeAllShoppingItems(): LiveData<List<ShoppingItem>> {
         return observableShoppingItems
     }
 
@@ -50,11 +49,10 @@ class FakeShoppingRepository : ShoppingRepository{
     }
 
     override suspend fun searchForImage(imageQuery: String): Resource<ImageResponse> {
-        return if(shouldReturnNetworkError){
-            Resource.error("Error",null)
-        }
-        else{
-            Resource.success(ImageResponse(listOf(),0,0))
+        return if(shouldReturnNetworkError) {
+            Resource.error("Error", null)
+        } else {
+            Resource.success(ImageResponse(listOf(), 0, 0))
         }
     }
 }

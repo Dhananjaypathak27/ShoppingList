@@ -2,10 +2,13 @@ package com.inxparticle.shoppinglist.di
 
 import android.content.Context
 import androidx.room.Room
+import com.inxparticle.shoppinglist.data.local.ShoppingDao
 import com.inxparticle.shoppinglist.data.local.ShoppingItemDatabase
 import com.inxparticle.shoppinglist.data.remote.PixabayAPI
 import com.inxparticle.shoppinglist.other.Constants.BASE_URL
 import com.inxparticle.shoppinglist.other.Constants.DATABASE_NAME
+import com.inxparticle.shoppinglist.repositories.DefaultShoppingRepository
+import com.inxparticle.shoppinglist.repositories.ShoppingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +28,13 @@ object AppModule {
     fun provideShoppingItemDatabase(
         @ApplicationContext context: Context,
     ) = Room.databaseBuilder(context,ShoppingItemDatabase::class.java,DATABASE_NAME).build()
+
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(
+        dao: ShoppingDao,
+        api: PixabayAPI
+    ) = DefaultShoppingRepository(dao, api) as ShoppingRepository
 
     @Provides
     @Singleton

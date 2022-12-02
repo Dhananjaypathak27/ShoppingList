@@ -12,7 +12,8 @@ import javax.inject.Inject
 class DefaultShoppingRepository @Inject constructor(
     private val shoppingDao: ShoppingDao,
     private val pixabayAPI: PixabayAPI
-) : ShoppingRepository{
+) : ShoppingRepository {
+
     override suspend fun insertShoppingItem(shoppingItem: ShoppingItem) {
         shoppingDao.insertShoppingItem(shoppingItem)
     }
@@ -21,7 +22,7 @@ class DefaultShoppingRepository @Inject constructor(
         shoppingDao.deleteShoppingItem(shoppingItem)
     }
 
-    override fun observeAllShoppingItem(): LiveData<List<ShoppingItem>> {
+    override fun observeAllShoppingItems(): LiveData<List<ShoppingItem>> {
         return shoppingDao.observeAllShoppingItems()
     }
 
